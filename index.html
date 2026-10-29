@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zitline Hotspot — Live Responsive Preview</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+        :root {
+            --bar-h: 58px;
+            --bg-studio: #060611;
+            --surface: rgba(19, 19, 40, 0.86);
+            --surface-2: rgba(255, 255, 255, 0.06);
+            --border: rgba(205, 211, 255, 0.14);
+            --border-strong: rgba(126, 132, 255, 0.45);
+            --text: #f5f6ff;
+            --muted: #9da2c0;
+            --accent: #3734ff;
+            --accent-glow: rgba(55, 52, 255, 0.38);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 0%, rgba(48, 43, 214, 0.18), transparent 36rem),
+                radial-gradient(circle at 85% 100%, rgba(39, 19, 157, 0.2), transparent 32rem),
+                var(--bg-studio);
+        }
+
+        /* Top Studio Toolbar */
+        .preview-toolbar {
+            position: relative;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            min-height: var(--bar-h);
+            padding: 8px 16px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            -webkit-backdrop-filter: blur(20px) saturate(130%);
+            backdrop-filter: blur(20px) saturate(130%);
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+        body.bar-hidden .preview-toolbar {
+            display: none;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .toolbar-logo {
+            height: 24px;
+            width: auto;
+            display: block;
+        }
+
+        .preview-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: #b8beff;
+            background: rgba(65, 62, 255, 0.16);
+            border: 1px solid rgba(119, 123, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        .preview-badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #58f099;
+            box-shadow: 0 0 8px #58f099;
+        }
+
+        /* Center Device Switcher */
+        .toolbar-center {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .device-group {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px;
+            border-radius: 11px;
+            background: rgba(7, 7, 20, 0.65);
+            border: 1px solid var(--border);
+        }
+
+        .device-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 32px;
+            padding: 0 12px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            font: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .device-btn:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .device-btn.active {
+            color: #fff;
+            background: linear-gradient(115deg, #2724ff 0%, #4458ff 100%);
+            box-shadow: 0 3px 12px var(--accent-glow);
+        }
+
+        .device-btn svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 34px;
+            padding: 0 11px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--muted);
+            font: inherit;
+            font-size: 11.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .icon-btn:hover {
+            color: var(--text);
+            border-color: var(--border-strong);
+            background: rgba(119, 123, 255, 0.14);
+        }
+
+        .icon-btn.active {
+            color: #d6daff;
+            border-color: rgba(119, 123, 255, 0.55);
+            background: rgba(65, 62, 255, 0.22);
+        }
+
+        .icon-btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .icon-btn.is-hidden {
+            display: none;
+        }
+
+        .size-pill {
+            font-size: 11px;
+            color: var(--muted);
+            padding: 4px 9px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(205, 211, 255, 0.08);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        /* Right Page & Controls */
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .select-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .page-select {
+            appearance: none;
+            -webkit-appearance: none;
+            height: 34px;
+            padding: 0 30px 0 11px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: rgba(10, 10, 26, 0.85);
+            color: var(--text);
+            font: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .page-select:hover,
+        .page-select:focus {
+            border-color: var(--border-strong);
+        }
+
+        .select-wrap::after {
+            content: "▾";
+            position: absolute;
+            right: 10px;
+            pointer-events: none;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* Main Stage */
+        .stage {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - var(--bar-h));
+            height: calc(100dvh - var(--bar-h));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        body.bar-hidden .stage {
+            height: 100vh;
+            height: 100dvh;
+        }
+
+        /* Subtle dot grid on stage background when in framed Tablet/Mobile mode */
+        .stage::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(174, 180, 255, 0.12) 1px, transparent 1px);
+            background-size: 22px 22px;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .device-scaler {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center center;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .device-frame {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: #0b0b18;
+            transition:
+                width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                height 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                padding 0.25s ease,
+                border-radius 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        /* Desktop full mode */
+        .device-frame.mode-desktop-full {
+            width: 100vw;
+            height: calc(100vh - var(--bar-h));
+            height: calc(100dvh - var(--bar-h));
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        body.bar-hidden .device-frame.mode-desktop-full {
+            height: 100vh;
+            height: 100dvh;
+        }
+
+        /* Desktop scaled browser window (when viewed on mobile/narrow screen) */
+        .device-frame.mode-desktop-framed {
+            padding: 34px 10px 10px;
+            border-radius: 18px;
+            background: linear-gradient(160deg, #1b1c34, #0f1022);
+            border: 1px solid rgba(210, 215, 255, 0.22);
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.65),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        }
+
+        .browser-chrome {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 34px;
+            padding: 0 14px;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .device-frame.mode-desktop-framed .browser-chrome {
+            display: flex;
+        }
+
+        .chrome-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .chrome-dot:nth-child(1) { background: #ff5f57; }
+        .chrome-dot:nth-child(2) { background: #febc2e; }
+        .chrome-dot:nth-child(3) { background: #28c840; }
+
+        .chrome-url {
+            margin-left: 10px;
+            padding: 3px 14px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.35);
+            color: var(--muted);
+            font-size: 10.5px;
+        }
+
+        /* Tablet Bezel */
+        .device-frame.mode-tablet {
+            padding: 16px;
+            border-radius: 30px;
+            background: linear-gradient(155deg, #22243e 0%, #111225 55%, #181a32 100%);
+            border: 1.5px solid rgba(214, 220, 255, 0.25);
+            box-shadow:
+                0 32px 90px rgba(0, 0, 0, 0.68),
+                0 0 0 1px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        }
+
+        .device-frame.mode-tablet::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #3a3f66;
+        }
+
+        /* Mobile Bezel */
+        .device-frame.mode-mobile {
+            padding: 12px;
+            border-radius: 40px;
+            background: linear-gradient(155deg, #252744 0%, #101122 50%, #1a1c36 100%);
+            border: 1.5px solid rgba(214, 220, 255, 0.28);
+            box-shadow:
+                0 32px 90px rgba(0, 0, 0, 0.72),
+                0 0 0 1px rgba(0, 0, 0, 0.65),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .device-frame.mode-mobile::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        /* Mobile Native Full (when opened directly on a real smartphone in portrait) */
+        .device-frame.mode-mobile-native {
+            width: 100vw;
+            height: calc(100vh - var(--bar-h));
+            height: calc(100dvh - var(--bar-h));
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        body.bar-hidden .device-frame.mode-mobile-native {
+            height: 100vh;
+            height: 100dvh;
+        }
+
+        .viewport-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #050415;
+            border-radius: inherit;
+        }
+
+        .device-frame.mode-tablet .viewport-screen {
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .device-frame.mode-mobile .viewport-screen {
+            border-radius: 29px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .device-frame.mode-desktop-framed .viewport-screen {
+            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        #preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+            background: #050415;
+        }
+
+        /* Floating Restore Toolbar Pill */
+        .restore-bar-btn {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 40;
+            display: none;
+            align-items: center;
+            gap: 7px;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(136, 142, 255, 0.45);
+            background: rgba(15, 15, 36, 0.88);
+            color: #fff;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+        }
+
+        body.bar-hidden .restore-bar-btn {
+            display: inline-flex;
+        }
+
+        /* Subtle Status Toast */
+        .preview-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            z-index: 50;
+            padding: 9px 16px;
+            border-radius: 999px;
+            background: rgba(18, 19, 44, 0.94);
+            border: 1px solid rgba(126, 132, 255, 0.45);
+            color: #eef0ff;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.48);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+            white-space: nowrap;
+            max-width: calc(100vw - 32px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .preview-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive adjustments for the preview toolbar itself */
+        @media (max-width: 980px) {
+            .size-pill,
+            .preview-badge {
+                display: none;
+            }
+        }
+
+        @media (max-width: 720px) {
+            :root {
+                --bar-h: 96px;
+            }
+            .preview-toolbar {
+                flex-wrap: wrap;
+                padding: 8px 10px;
+                gap: 8px;
+            }
+            .toolbar-left {
+                display: none;
+            }
+            .toolbar-center {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .device-group {
+                flex: 1;
+                display: flex;
+            }
+            .device-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 0 8px;
+                font-size: 11.5px;
+            }
+            .toolbar-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .select-wrap {
+                flex: 1;
+            }
+            .page-select {
+                width: 100%;
+            }
+            .btn-text-hide-sm {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="preview-toolbar" id="preview-toolbar">
+        <div class="toolbar-left">
+            <img class="toolbar-logo" src="img/logo-zitline.svg" alt="Zitline">
+            <span class="preview-badge">Web Preview</span>
+        </div>
+
+        <div class="toolbar-center">
+            <div class="device-group" role="tablist" aria-label="Pilih ukuran layar">
+                <button type="button" class="device-btn" data-device="desktop" title="Tampilan Desktop / Laptop">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    <span>Desktop</span>
+                </button>
+                <button type="button" class="device-btn" data-device="tablet" title="Tampilan Tablet (768 × 1024)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    <span>Tablet</span>
+                </button>
+                <button type="button" class="device-btn" data-device="mobile" title="Tampilan Mobile (390 × 844)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    <span>Mobile</span>
+                </button>
+            </div>
+
+            <button type="button" class="icon-btn is-hidden" id="rotate-btn" title="Putar Orientasi (Portrait / Landscape)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                <span class="btn-text-hide-sm">Putar</span>
+            </button>
+
+            <span class="size-pill" id="size-pill">Full Web</span>
+        </div>
+
+        <div class="toolbar-right">
+            <div class="select-wrap">
+                <select class="page-select" id="page-select" aria-label="Pilih halaman hotspot">
+                    <option value="login">Halaman: Login (Utama)</option>
+                    <option value="login-trial">Halaman: Login + Free Trial</option>
+                    <option value="login-error">Halaman: Login + Pesan Error</option>
+                    <option value="status">Halaman: Status Terhubung</option>
+                    <option value="alogin">Halaman: Redirect Login</option>
+                    <option value="logout">Halaman: Logout Selesai</option>
+                    <option value="error">Halaman: Hotspot Error</option>
+                    <option value="radvert">Halaman: Advertisement</option>
+                </select>
+            </div>
+
+            <button type="button" class="icon-btn active" id="popup-btn" title="Tampilkan / Sembunyikan Popup Selamat Datang">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+                <span class="btn-text-hide-sm">Popup</span>
+            </button>
+
+            <button type="button" class="icon-btn" id="hide-bar-btn" title="Sembunyikan panel atas (Full Screen)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="stage" id="stage">
+        <div class="device-scaler" id="device-scaler">
+            <div class="device-frame mode-desktop-full" id="device-frame">
+                <div class="browser-chrome">
+                    <span class="chrome-dot"></span>
+                    <span class="chrome-dot"></span>
+                    <span class="chrome-dot"></span>
+                    <span class="chrome-url">hotspot.zitline.id/login</span>
+                </div>
+                <div class="viewport-screen">
+                    <iframe id="preview-iframe" title="Hotspot Template Preview"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <button type="button" class="restore-bar-btn" id="restore-bar-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>Panel Preview</span>
+    </button>
+
+    <div class="preview-toast" id="preview-toast" role="status" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            /* =====================================================================
+             * 1. Embedded Fallback Templates (used only if opened via file://)
+             *    On Vercel / HTTP server, live files are fetched automatically!
+             * ===================================================================== */
+            var FALLBACK_TEMPLATES = {
+                "login.html": [
+                    '<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Zitline - Login Internet</title>',
+                    '<script>if (localStorage.getItem("zitline-theme") === "light") { document.documentElement.classList.add("light-mode"); }<\/script>',
+                    '<link rel="stylesheet" href="css/style.css"></head><body>',
+                    '<div class="welcome-modal" id="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title"><div class="welcome-card"><div class="welcome-visual"><img src="img/popup.jpg" alt="Promo 10 tahun Zitline"></div><h1 id="welcome-title">Selamat Datang</h1><p>Silahkan login untuk melanjutkan</p><button type="button" class="primary-button" id="welcome-login">Login <span aria-hidden="true">→</span></button></div></div>',
+                    '<main class="site-shell"><header class="brand-card"><img class="logo-dark" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider"><img class="logo-light" src="img/logo-zitline-color.svg" alt="Zitline Internet Service Provider"><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Aktifkan light mode"><span class="theme-icon" aria-hidden="true">☼</span><span class="theme-label">Light</span></button></header>',
+                    '<section class="top-grid"><div class="panel login-panel" id="login-panel"><h2>Login Internet</h2><p class="subheading">Masukkan kode akses kamu</p><form name="login" action="$(link-login-only)" method="post"><input type="hidden" name="dst" value="$(link-orig)"><input type="hidden" name="popup" value="true"><input type="hidden" name="username" value="$(username)"><input type="hidden" name="password" value=""><label for="passcode">Passcode</label><div class="input-wrap"><img class="ico" src="img/user.svg" alt=""><input id="passcode" name="passcode" type="text" value="$(username)" placeholder="Masukkan kode voucher atau password" autocomplete="off" oninput="this.form.username.value = this.value; this.form.password.value = this.value"></div><p class="info $(if error)alert$(endif)">$(if error == "")$(if trial == \'yes\')Free trial tersedia, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">klik di sini</a>.$(endif)$(endif)$(if error)$(error)$(endif)</p><input class="primary-button" type="submit" value="Login"></form></div>',
+                    '<div class="panel banner-panel"><div class="banner-viewport"><div class="banner-track" id="banner-track"><div class="empty-shape banner-slide active"><img src="img/slide-1.jpg" alt="Promo 10 tahun Zitline"></div><div class="empty-shape banner-slide"><img src="img/slide-2.jpg" alt="Zitline Internet Service Provider"></div><div class="empty-shape banner-slide"><img src="img/slide-3.jpg" alt="Zitline On Time Equals Early"></div></div></div><div class="slider-controls"><div class="slider-dots" id="slider-dots"><button type="button" class="active" aria-label="Tampilkan banner 1"></button><button type="button" aria-label="Tampilkan banner 2"></button><button type="button" aria-label="Tampilkan banner 3"></button></div><div class="slider-arrows"><button type="button" id="slider-prev" aria-label="Banner sebelumnya">←</button><button type="button" id="slider-next" aria-label="Banner berikutnya">→</button></div></div></div></section>',
+                    '<section class="content-grid"><article class="panel about-panel"><h2>About Us</h2><div class="about-shapes" id="about-shapes"><div class="empty-shape about-shape active"><img src="img/about-1.jpg" alt="Tentang Zitline"></div><div class="empty-shape about-shape"><img src="img/about-2.jpg" alt="Layanan Zitline"></div></div><div class="about-dots" id="about-dots" aria-label="Pilihan foto About Us"><button type="button" class="active" aria-label="Tampilkan foto About Us 1"></button><button type="button" aria-label="Tampilkan foto About Us 2"></button></div><p>PT ARAZ INTI LINE (ZITLINE) adalah penyedia solusi konektivitas dan layanan internet yang mendukung kebutuhan bisnis, institusi, dan pelanggan di Indonesia.</p><p>Dengan dukungan jaringan wireless dan fiber optic, Zitline menghadirkan koneksi yang stabil, aman, dan dapat diandalkan untuk menunjang produktivitas.</p><a class="primary-button button-link secondary-button" href="#" aria-label="Kunjungi Website Utama">Kunjungi Website Utama</a></article>',
+                    '<article class="panel facilities-panel"><h2>Fasilitas Perusahaan</h2><p>Fasilitas dan layanan kami dirancang untuk memberikan pengalaman konektivitas yang nyaman, profesional, dan konsisten bagi setiap pelanggan.</p><div class="facility-grid"><div class="facility-card"><h3>Ruang Meeting</h3><p>Ruang nyaman untuk kolaborasi dan kebutuhan bisnis.</p><strong>2</strong></div><div class="facility-card"><h3>Network Support</h3><p>Dukungan teknis untuk menjaga layanan tetap optimal.</p><strong>24/7</strong></div><div class="facility-card"><h3>High Speed Wi-Fi</h3><p>Koneksi cepat dan stabil untuk aktivitas digital.</p><strong>1 Gbps</strong></div><div class="facility-card"><h3>Dedicated Service</h3><p>Layanan konektivitas yang disesuaikan dengan kebutuhan.</p><strong>99.9%</strong></div><div class="facility-card"><h3>Secure Infrastructure</h3><p>Infrastruktur terlindungi untuk menjaga keamanan data.</p><strong>ISO Ready</strong></div></div></article></section>',
+                    '<section class="panel contact-panel"><h2>Contact Us</h2><p>Butuh solusi konektivitas untuk kantor, hunian, atau kebutuhan bisnis? Tim kami siap membantu memilih layanan yang tepat.</p><a class="primary-button button-link secondary-button" href="#">Consultation Now</a></section><footer class="footer-card">© 2026 PT ARAZ INTI LINE</footer></main>',
+                    '<script>(function(){var s=localStorage.getItem("zitline-theme");if(s==="light"){document.body.classList.add("light-mode");}})();var themeToggle=document.getElementById("theme-toggle");themeToggle.addEventListener("click",function(){var l=document.body.classList.toggle("light-mode");document.documentElement.classList.toggle("light-mode",l);localStorage.setItem("zitline-theme",l?"light":"dark");themeToggle.setAttribute("aria-label",l?"Aktifkan dark mode":"Aktifkan light mode");themeToggle.querySelector(".theme-label").textContent=l?"Dark":"Light";themeToggle.querySelector(".theme-icon").textContent=l?"◐":"☼";});if(document.body.classList.contains("light-mode")){themeToggle.setAttribute("aria-label","Aktifkan dark mode");themeToggle.querySelector(".theme-label").textContent="Dark";themeToggle.querySelector(".theme-icon").textContent="◐";}document.addEventListener("pointermove",function(e){document.documentElement.style.setProperty("--mouse-x",e.clientX+"px");document.documentElement.style.setProperty("--mouse-y",e.clientY+"px");});(function(){var m=document.getElementById("welcome-modal"),b=document.getElementById("welcome-login"),p=document.getElementById("passcode");m.classList.remove("is-hidden");b.addEventListener("click",function(){m.classList.add("is-hidden");m.setAttribute("aria-hidden","true");p.focus();});})();(function(){var t=document.getElementById("banner-track"),d=document.querySelectorAll("#slider-dots button"),pr=document.getElementById("slider-prev"),nx=document.getElementById("slider-next"),c=0,n=d.length;function s(i){c=(i+n)%n;t.querySelectorAll(".banner-slide").forEach(function(el,idx){el.classList.toggle("active",idx===c);});d.forEach(function(el,idx){el.classList.toggle("active",idx===c);});}d.forEach(function(el,idx){el.addEventListener("click",function(){s(idx);r();});});pr.addEventListener("click",function(){s(c-1);r();});nx.addEventListener("click",function(){s(c+1);r();});var tm=setInterval(function(){s(c+1);},4000);function r(){clearInterval(tm);tm=setInterval(function(){s(c+1);},4000);}})();(function(){var t=document.getElementById("about-shapes"),d=document.querySelectorAll("#about-dots button"),c=0,tm;function s(i){c=(i+d.length)%d.length;t.querySelectorAll(".about-shape").forEach(function(el,idx){el.classList.toggle("active",idx===c);});d.forEach(function(el,idx){el.classList.toggle("active",idx===c);});}d.forEach(function(el,idx){el.addEventListener("click",function(){if(window.matchMedia("(max-width: 650px)").matches){s(idx);r();}});});function r(){clearInterval(tm);tm=setInterval(function(){if(window.matchMedia("(max-width: 650px)").matches){s(c+1);}},4000);}r();})();<\/script></body></html>'
+                ].join("\n"),
+                "status.html": '<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Internet hotspot - Status</title><link rel="stylesheet" href="css/style.css"></head><body><div class="ie-fixMinHeight"><div class="main"><div class="wrap status-wrap"><button type="button" class="page-theme-toggle" id="page-theme-toggle" aria-label="Aktifkan light mode"><span class="page-theme-icon" aria-hidden="true">☼</span><span class="page-theme-label">Light</span></button><picture><source srcset="img/logo-zitline-color.svg" media="(prefers-color-scheme: light)"><img class="page-brand" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider"></picture>$(if login-by == \'trial\')<h1>Hi, trial user!</h1>$(elif login-by != \'mac\')<h1>Hi, $(username)!</h1>$(endif)<form action="$(link-logout)" name="logout"><table><tr><td>IP address</td><td>$(ip)</td></tr><tr><td>Bytes up / down</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>$(if session-time-left)<tr><td>Connected / left</td><td>$(uptime) / $(session-time-left)</td></tr>$(else)<tr><td>Connected</td><td>$(uptime)</td></tr>$(endif)$(if blocked == \'yes\')<tr><td>Status</td><td><a href="$(link-advert)" target="hotspot_advert">Advertisement required</a></td></tr>$(elif refresh-timeout)<tr><td>Status refresh</td><td>$(refresh-timeout)</td></tr>$(endif)</table>$(if login-by-mac != \'yes\')<input type="submit" value="Log out">$(endif)</form></div></div></div><script>(function(){var t=document.getElementById("page-theme-toggle"),i=t.querySelector(".page-theme-icon"),l=t.querySelector(".page-theme-label"),b=document.querySelector(".page-brand");function u(m){document.documentElement.classList.toggle("light-mode",m);document.body.classList.toggle("light-mode",m);t.setAttribute("aria-label",m?"Aktifkan dark mode":"Aktifkan light mode");i.textContent=m?"◐":"☼";l.textContent=m?"Dark":"Light";b.src=m?"img/logo-zitline-color.svg":"img/logo-zitline.svg";}u(localStorage.getItem("zitline-theme")==="light");t.addEventListener("click",function(){var m=!document.body.classList.contains("light-mode");localStorage.setItem("zitline-theme",m?"light":"dark");u(m);});})();<\/script></body></html>',
+                "logout.html": '<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Internet hotspot - Log out</title><link rel="stylesheet" href="css/style.css"></head><body><div class="ie-fixMinHeight"><div class="main"><div class="wrap"><picture><source srcset="img/logo-zitline-color.svg" media="(prefers-color-scheme: light)"><img class="page-brand" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider"></picture><h1>You have just logged out!</h1><table><tr><td>Username</td><td>$(username)</td></tr><tr><td>IP address</td><td>$(ip)</td></tr><tr><td>MAC address</td><td>$(mac)</td></tr><tr><td>Session time</td><td>$(uptime)</td></tr>$(if session-time-left)<tr><td>Time left</td><td>$(session-time-left)</td></tr>$(endif)<tr><td>Bytes up / down:</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr></table><form action="$(link-login)" name="login"><input type="submit" value="Log in"></form></div></div></div><script>if(localStorage.getItem("zitline-theme")==="light"){document.documentElement.classList.add("light-mode");document.body.classList.add("light-mode");document.querySelector(".page-brand").src="img/logo-zitline-color.svg";}<\/script></body></html>',
+                "alogin.html": '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Internet hotspot - Redirect</title><link rel="stylesheet" href="css/style.css"></head><body><div class="ie-fixMinHeight"><div class="main"><div class="wrap"><h1>You are logged in</h1><p class="info">If nothing happens, click <a href="$(link-redirect)">here</a></p></div></div></div></body></html>',
+                "error.html": '<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Internet hotspot - Error</title><link rel="stylesheet" href="css/style.css"></head><body><div class="ie-fixMinHeight"><div class="main"><div class="wrap"><picture><source srcset="img/logo-zitline-color.svg" media="(prefers-color-scheme: light)"><img class="page-brand" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider"></picture><h1>Hotspot error: $(error)</h1><p class="info">Log in page: <a href="$(link-login)">$(link-login)</a></p></div></div></div><script>if(localStorage.getItem("zitline-theme")==="light"){document.documentElement.classList.add("light-mode");document.body.classList.add("light-mode");document.querySelector(".page-brand").src="img/logo-zitline-color.svg";}<\/script></body></html>',
+                "radvert.html": '<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Internet hotspot - Advertisement</title><link rel="stylesheet" href="css/style.css"></head><body><div class="ie-fixMinHeight"><div class="main"><div class="wrap"><picture><source srcset="img/logo-zitline-color.svg" media="(prefers-color-scheme: light)"><img class="page-brand" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider"></picture><h1>Advertisement</h1><p class="info">If nothing happens, open <a href="$(link-redirect)" target="hotspot_advert">advertisement</a> manually.</p></div></div></div><script>if(localStorage.getItem("zitline-theme")==="light"){document.documentElement.classList.add("light-mode");document.body.classList.add("light-mode");document.querySelector(".page-brand").src="img/logo-zitline-color.svg";}<\/script></body></html>'
+            };
+
+            /* =====================================================================
+             * 2. MikroTik RouterOS Template Parser ($(if), $(elif), $(else), $(var))
+             * ===================================================================== */
+            function tokenizeMikrotik(source) {
+                var tokens = [];
+                var regex = /\$\(([^)]+)\)/g;
+                var lastIndex = 0;
+                var match;
+
+                while ((match = regex.exec(source)) !== null) {
+                    if (match.index > lastIndex) {
+                        tokens.push({ type: "text", value: source.slice(lastIndex, match.index) });
+                    }
+                    var expr = match[1].trim();
+                    if (expr.indexOf("if ") === 0) {
+                        tokens.push({ type: "if", cond: expr.slice(3).trim() });
+                    } else if (expr.indexOf("elif ") === 0) {
+                        tokens.push({ type: "elif", cond: expr.slice(5).trim() });
+                    } else if (expr === "else") {
+                        tokens.push({ type: "else" });
+                    } else if (expr === "endif") {
+                        tokens.push({ type: "endif" });
+                    } else {
+                        tokens.push({ type: "var", name: expr });
+                    }
+                    lastIndex = regex.lastIndex;
+                }
+                if (lastIndex < source.length) {
+                    tokens.push({ type: "text", value: source.slice(lastIndex) });
+                }
+                return tokens;
+            }
+
+            function evalCondition(cond, vars) {
+                var cmp = cond.match(/^([a-zA-Z0-9_-]+)\s*(==|!=)\s*(?:'([^']*)'|"([^"]*)"|(\S+))$/);
+                if (cmp) {
+                    var left = String(vars[cmp[1]] != null ? vars[cmp[1]] : "");
+                    var right = cmp[3] !== undefined ? cmp[3]
+                        : cmp[4] !== undefined ? cmp[4]
+                        : String(vars[cmp[5]] != null ? vars[cmp[5]] : cmp[5]);
+                    return cmp[2] === "==" ? left === right : left !== right;
+                }
+                var val = vars[cond];
+                return val !== undefined && val !== "" && val !== "no" && val !== "false" && val !== false && val !== 0 && val !== "0";
+            }
+
+            function parseBlock(tokens, startIdx, vars) {
+                var out = "";
+                var i = startIdx;
+
+                while (i < tokens.length) {
+                    var tok = tokens[i];
+                    if (tok.type === "elif" || tok.type === "else" || tok.type === "endif") {
+                        return { output: out, nextIdx: i };
+                    }
+                    if (tok.type === "text") {
+                        out += tok.value;
+                        i++;
+                    } else if (tok.type === "var") {
+                        out += vars[tok.name] != null ? String(vars[tok.name]) : "";
+                        i++;
+                    } else if (tok.type === "if") {
+                        var branches = [];
+                        var firstBranch = parseBlock(tokens, i + 1, vars);
+                        branches.push({ cond: tok.cond, content: firstBranch.output });
+                        i = firstBranch.nextIdx;
+
+                        while (i < tokens.length && tokens[i].type === "elif") {
+                            var elifCond = tokens[i].cond;
+                            var elifBranch = parseBlock(tokens, i + 1, vars);
+                            branches.push({ cond: elifCond, content: elifBranch.output });
+                            i = elifBranch.nextIdx;
+                        }
+
+                        var elseContent = "";
+                        if (i < tokens.length && tokens[i].type === "else") {
+                            var elseBranch = parseBlock(tokens, i + 1, vars);
+                            elseContent = elseBranch.output;
+                            i = elseBranch.nextIdx;
+                        }
+
+                        if (i < tokens.length && tokens[i].type === "endif") {
+                            i++;
+                        }
+
+                        var matched = false;
+                        for (var b = 0; b < branches.length; b++) {
+                            if (evalCondition(branches[b].cond, vars)) {
+                                out += branches[b].content;
+                                matched = true;
+                                break;
+                            }
+                        }
+                        if (!matched) {
+                            out += elseContent;
+                        }
+                    } else {
+                        i++;
+                    }
+                }
+                return { output: out, nextIdx: i };
+            }
+
+            function renderMikrotikTemplate(rawHtml, vars) {
+                var tokens = tokenizeMikrotik(rawHtml);
+                return parseBlock(tokens, 0, vars).output;
+            }
+
+            /* =====================================================================
+             * 3. Preview Studio State & Scenarios
+             * ===================================================================== */
+            var templateCache = {};
+            var params = new URLSearchParams(window.location.search);
+
+            function detectDefaultDevice() {
+                var q = params.get("device");
+                if (q === "desktop" || q === "tablet" || q === "mobile") return q;
+                if (window.innerWidth <= 650) return "mobile";
+                if (window.innerWidth <= 960) return "tablet";
+                return "desktop";
+            }
+
+            var state = {
+                device: detectDefaultDevice(),
+                landscape: false,
+                scenario: params.get("page") || "login",
+                showWelcomeModal: true,
+                theme: "dark",
+                username: "ZITLINE-VIP",
+                loginBy: "http-pap",
+                customError: ""
+            };
+
+            try {
+                if (localStorage.getItem("zitline-theme") === "light") {
+                    state.theme = "light";
+                }
+            } catch (e) {}
+
+            var SCENARIOS = {
+                "login": {
+                    file: "login.html",
+                    vars: { trial: "no", error: "", username: "" }
+                },
+                "login-trial": {
+                    file: "login.html",
+                    vars: { trial: "yes", error: "", username: "" }
+                },
+                "login-error": {
+                    file: "login.html",
+                    vars: { trial: "yes", error: "invalid username or password", username: "VOUCHER-123" }
+                },
+                "status": {
+                    file: "status.html",
+                    vars: {}
+                },
+                "alogin": {
+                    file: "alogin.html",
+                    vars: {}
+                },
+                "logout": {
+                    file: "logout.html",
+                    vars: {}
+                },
+                "error": {
+                    file: "error.html",
+                    vars: { error: "you are not logged in (ip 192.168.88.24)" }
+                },
+                "radvert": {
+                    file: "radvert.html",
+                    vars: {}
+                }
+            };
+
+            if (!SCENARIOS[state.scenario]) {
+                state.scenario = "login";
+            }
+
+            function buildMockVars(scenarioKey) {
+                var base = {
+                    "chap-id": "",
+                    "chap-challenge": "",
+                    "link-login": "http://hotspot.zitline.id/login",
+                    "link-login-only": "#hotspot-login",
+                    "link-orig": "https://zitline.id",
+                    "link-orig-esc": "https%3A%2F%2Fzitline.id",
+                    "link-redirect": "#hotspot-status",
+                    "link-redirect-esc": "%23hotspot-status",
+                    "link-logout": "#hotspot-logout",
+                    "link-status": "#hotspot-status",
+                    "link-advert": "#hotspot-advert",
+                    "mac": "A4:83:E7:2B:91:C0",
+                    "mac-esc": "A4%3A83%3AE7%3A2B%3A91%3AC0",
+                    "ip": "192.168.88.24",
+                    "username": state.username || "ZITLINE-VIP",
+                    "login-by": state.loginBy || "http-pap",
+                    "login-by-mac": "no",
+                    "uptime": "01:24:18",
+                    "session-time-left": "22:35:42",
+                    "bytes-in-nice": "18.4 MiB",
+                    "bytes-out-nice": "142.8 MiB",
+                    "refresh-timeout": "1m",
+                    "refresh-timeout-secs": "60",
+                    "advert-pending": "no",
+                    "blocked": "no",
+                    "popup": "false",
+                    "trial": "no",
+                    "error": "",
+                    "hostname": "hotspot.zitline.id"
+                };
+                var extra = SCENARIOS[scenarioKey] ? SCENARIOS[scenarioKey].vars : {};
+                for (var k in extra) {
+                    if (Object.prototype.hasOwnProperty.call(extra, k)) {
+                        base[k] = extra[k];
+                    }
+                }
+                if (scenarioKey === "login-error" && state.customError) {
+                    base.error = state.customError;
+                }
+                return base;
+            }
+
+            /* =====================================================================
+             * 4. Fetch & Inject Preview Bridge into Hotspot HTML
+             * ===================================================================== */
+            function loadRawTemplate(fileName) {
+                if (templateCache[fileName]) {
+                    return Promise.resolve(templateCache[fileName]);
+                }
+                return fetch("./" + fileName, { cache: "no-store" })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error("HTTP " + res.status);
+                        return res.text();
+                    })
+                    .then(function (txt) {
+                        templateCache[fileName] = txt;
+                        return txt;
+                    })
+                    .catch(function () {
+                        var fb = FALLBACK_TEMPLATES[fileName] || "<h1>Template tidak ditemukan</h1>";
+                        templateCache[fileName] = fb;
+                        return fb;
+                    });
+            }
+
+            function prepareSrcDoc(renderedHtml, scenarioKey) {
+                var baseHref = new URL("./", window.location.href).href;
+
+                // Strip meta refresh & body auto-redirect onLoad so preview stays interactive
+                var clean = renderedHtml
+                    .replace(/<meta[^>]+http-equiv=["']?refresh["']?[^>]*>/gi, "")
+                    .replace(/\bonLoad=["']startClock\(\)["']/gi, "")
+                    .replace(/\bonLoad=["']openAdvert\(\)["']/gi, "");
+
+                var headInjection = [
+                    '<base href="' + baseHref + '">',
+                    '<script>',
+                    '(function(){',
+                    '  var mem = { "zitline-theme": ' + JSON.stringify(state.theme) + ' };',
+                    '  try {',
+                    '    window.localStorage.setItem("zitline-theme", mem["zitline-theme"]);',
+                    '  } catch (err) {',
+                    '    Object.defineProperty(window, "localStorage", {',
+                    '      value: {',
+                    '        getItem: function(k){ return Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null; },',
+                    '        setItem: function(k, v){ mem[k] = String(v); },',
+                    '        removeItem: function(k){ delete mem[k]; }',
+                    '      }',
+                    '    });',
+                    '  }',
+                    '})();',
+                    '<\/script>'
+                ].join("\n");
+
+                if (/<head[^>]*>/i.test(clean)) {
+                    clean = clean.replace(/<head[^>]*>/i, function (m) { return m + "\n" + headInjection; });
+                } else {
+                    clean = headInjection + "\n" + clean;
+                }
+
+                var shouldShowModal = state.showWelcomeModal && scenarioKey === "login";
+
+                var bridgeScript = [
+                    '<script>',
+                    '(function(){',
+                    '  var modal = document.getElementById("welcome-modal");',
+                    '  var welcomeBtn = document.getElementById("welcome-login");',
+                    '  if (modal) {',
+                    '    if (!' + (shouldShowModal ? 'true' : 'false') + ') {',
+                    '      modal.classList.add("is-hidden");',
+                    '      modal.setAttribute("aria-hidden", "true");',
+                    '    }',
+                    '    if (welcomeBtn) {',
+                    '      welcomeBtn.addEventListener("click", function(){',
+                    '        parent.postMessage({ type: "HOTSPOT_MODAL_STATE", open: false }, "*");',
+                    '      });',
+                    '    }',
+                    '  }',
+                    '',
+                    '  // Keep About Us mobile slide visible when live-resizing Desktop -> Mobile',
+                    '  window.addEventListener("resize", function(){',
+                    '    if (window.matchMedia("(max-width: 650px)").matches) {',
+                    '      var shapes = document.querySelectorAll("#about-shapes .about-shape");',
+                    '      var dots = document.querySelectorAll("#about-dots button");',
+                    '      var hasActive = document.querySelector("#about-shapes .about-shape.active");',
+                    '      if (shapes.length && !hasActive) {',
+                    '        shapes[0].classList.add("active");',
+                    '        if (dots.length) { dots.forEach(function(d, i){ d.classList.toggle("active", i === 0); }); }',
+                    '      }',
+                    '    }',
+                    '  });',
+                    '',
+                    '  // Sync theme changes back to parent state',
+                    '  var t1 = document.getElementById("theme-toggle");',
+                    '  var t2 = document.getElementById("page-theme-toggle");',
+                    '  [t1, t2].forEach(function(btn){',
+                    '    if (btn) {',
+                    '      btn.addEventListener("click", function(){',
+                    '        setTimeout(function(){',
+                    '          var isLight = document.body.classList.contains("light-mode");',
+                    '          parent.postMessage({ type: "HOTSPOT_THEME", theme: isLight ? "light" : "dark" }, "*");',
+                    '        }, 20);',
+                    '      });',
+                    '    }',
+                    '  });',
+                    '',
+                    '  // Listen to parent commands (toggle popup without reload)',
+                    '  window.addEventListener("message", function(ev){',
+                    '    if (!ev.data || ev.data.type !== "SET_WELCOME_MODAL") return;',
+                    '    if (!modal) return;',
+                    '    modal.classList.toggle("is-hidden", !ev.data.open);',
+                    '    modal.setAttribute("aria-hidden", ev.data.open ? "false" : "true");',
+                    '  });',
+                    '',
+                    '  // Intercept forms for realistic hotspot simulation',
+                    '  document.addEventListener("submit", function(ev){',
+                    '    ev.preventDefault();',
+                    '    var form = ev.target;',
+                    '    var fname = (form.getAttribute("name") || "").toLowerCase();',
+                    '    var action = (form.getAttribute("action") || "").toLowerCase();',
+                    '    if (fname === "logout" || action.indexOf("logout") !== -1) {',
+                    '      parent.postMessage({ type: "HOTSPOT_NAV", target: "logout" }, "*");',
+                    '      return;',
+                    '    }',
+                    '    var passInput = document.getElementById("passcode");',
+                    '    if (passInput) {',
+                    '      var code = passInput.value.trim();',
+                    '      if (!code) {',
+                    '        parent.postMessage({ type: "HOTSPOT_LOGIN_FAIL", error: "invalid username or password" }, "*");',
+                    '      } else {',
+                    '        parent.postMessage({ type: "HOTSPOT_LOGIN_OK", username: code, loginBy: "http-pap" }, "*");',
+                    '      }',
+                    '      return;',
+                    '    }',
+                    '    parent.postMessage({ type: "HOTSPOT_NAV", target: "login" }, "*");',
+                    '  }, true);',
+                    '',
+                    '  // Intercept links so preview never breaks out or reloads parent',
+                    '  document.addEventListener("click", function(ev){',
+                    '    var link = ev.target.closest ? ev.target.closest("a") : null;',
+                    '    if (!link) return;',
+                    '    var rawHref = link.getAttribute("href") || "";',
+                    '    ev.preventDefault();',
+                    '    if (rawHref.indexOf("username=T-") !== -1) {',
+                    '      parent.postMessage({ type: "HOTSPOT_LOGIN_OK", username: "trial-user", loginBy: "trial" }, "*");',
+                    '    } else if (rawHref.indexOf("advert") !== -1) {',
+                    '      parent.postMessage({ type: "HOTSPOT_NAV", target: "radvert" }, "*");',
+                    '    } else if (rawHref.indexOf("status") !== -1) {',
+                    '      parent.postMessage({ type: "HOTSPOT_NAV", target: "status" }, "*");',
+                    '    } else if (rawHref.indexOf("login") !== -1) {',
+                    '      parent.postMessage({ type: "HOTSPOT_NAV", target: "login" }, "*");',
+                    '    } else if (rawHref === "#") {',
+                    '      parent.postMessage({ type: "HOTSPOT_TOAST", text: "Tombol link eksternal diklik (Mode Preview)" }, "*");',
+                    '    }',
+                    '  }, true);',
+                    '})();',
+                    '<\/script>'
+                ].join("\n");
+
+                if (/<\/body>/i.test(clean)) {
+                    clean = clean.replace(/<\/body>/i, bridgeScript + "\n</body>");
+                } else {
+                    clean += "\n" + bridgeScript;
+                }
+                return clean;
+            }
+
+            /* =====================================================================
+             * 5. Device Viewport Sizing & Responsive Scaling
+             * ===================================================================== */
+            var stageEl = document.getElementById("stage");
+            var scalerEl = document.getElementById("device-scaler");
+            var frameEl = document.getElementById("device-frame");
+            var iframeEl = document.getElementById("preview-iframe");
+            var sizePillEl = document.getElementById("size-pill");
+            var rotateBtn = document.getElementById("rotate-btn");
+            var popupBtn = document.getElementById("popup-btn");
+            var pageSelect = document.getElementById("page-select");
+            var deviceBtns = document.querySelectorAll(".device-btn");
+            var toastEl = document.getElementById("preview-toast");
+            var toastTimer = null;
+
+            function showToast(msg) {
+                toastEl.textContent = msg;
+                toastEl.classList.add("show");
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toastEl.classList.remove("show");
+                }, 2600);
+            }
+
+            function updateDeviceLayout() {
+                var stageW = stageEl.clientWidth;
+                var stageH = stageEl.clientHeight;
+
+                deviceBtns.forEach(function (btn) {
+                    btn.classList.toggle("active", btn.getAttribute("data-device") === state.device);
+                });
+
+                rotateBtn.classList.toggle("is-hidden", state.device === "desktop");
+                rotateBtn.classList.toggle("active", state.landscape && state.device !== "desktop");
+
+                frameEl.className = "device-frame";
+                frameEl.style.width = "";
+                frameEl.style.height = "";
+                scalerEl.style.transform = "scale(1)";
+
+                if (state.device === "desktop") {
+                    if (stageW >= 1024) {
+                        frameEl.classList.add("mode-desktop-full");
+                        sizePillEl.textContent = "Desktop · " + stageW + " × " + stageH;
+                    } else {
+                        // Opened on phone/tablet -> render true 1280px desktop scaled to fit!
+                        var deskW = 1280;
+                        var deskH = 800;
+                        var frameTotalW = deskW + 20;
+                        var frameTotalH = deskH + 44;
+                        frameEl.classList.add("mode-desktop-framed");
+                        frameEl.style.width = frameTotalW + "px";
+                        frameEl.style.height = frameTotalH + "px";
+                        var scaleD = Math.min((stageW - 20) / frameTotalW, (stageH - 20) / frameTotalH, 1);
+                        scalerEl.style.transform = "scale(" + scaleD.toFixed(4) + ")";
+                        sizePillEl.textContent = "Desktop · 1280 × 800";
+                    }
+                } else if (state.device === "tablet") {
+                    var tabW = state.landscape ? 1024 : 768;
+                    var tabMaxH = state.landscape ? 768 : 1024;
+                    var padT = 32; // 16px * 2 bezel
+                    // Keep 1:1 crisp scale whenever host width allows, fitting height naturally
+                    var availInnerH = Math.max(560, Math.min(tabMaxH, stageH - padT - 28));
+                    var useH = (stageW >= tabW + padT + 24 && stageH >= 620) ? availInnerH : tabMaxH;
+                    var totalTW = tabW + padT;
+                    var totalTH = useH + padT;
+
+                    frameEl.classList.add("mode-tablet");
+                    frameEl.style.width = totalTW + "px";
+                    frameEl.style.height = totalTH + "px";
+
+                    var scaleT = Math.min((stageW - 24) / totalTW, (stageH - 24) / totalTH, 1);
+                    scalerEl.style.transform = "scale(" + scaleT.toFixed(4) + ")";
+                    sizePillEl.textContent = "Tablet · " + tabW + " × " + useH;
+                } else {
+                    // Mobile
+                    var isNativePhonePortrait = !state.landscape && window.innerWidth <= 500;
+                    if (isNativePhonePortrait) {
+                        frameEl.classList.add("mode-mobile-native");
+                        sizePillEl.textContent = "Mobile · " + stageW + " × " + stageH;
+                    } else {
+                        var mobW = state.landscape ? 844 : 390;
+                        var mobMaxH = state.landscape ? 390 : 844;
+                        var padM = 24; // 12px * 2 bezel
+                        var availMobH = state.landscape
+                            ? mobMaxH
+                            : Math.max(540, Math.min(mobMaxH, stageH - padM - 28));
+                        var useMobH = (!state.landscape && stageW >= mobW + padM + 20 && stageH >= 590)
+                            ? availMobH
+                            : mobMaxH;
+                        var totalMW = mobW + padM;
+                        var totalMH = useMobH + padM;
+
+                        frameEl.classList.add("mode-mobile");
+                        frameEl.style.width = totalMW + "px";
+                        frameEl.style.height = totalMH + "px";
+
+                        var scaleM = Math.min((stageW - 20) / totalMW, (stageH - 20) / totalMH, 1);
+                        scalerEl.style.transform = "scale(" + scaleM.toFixed(4) + ")";
+                        sizePillEl.textContent = "Mobile · " + mobW + " × " + useMobH;
+                    }
+                }
+
+                syncUrlParams();
+            }
+
+            function syncUrlParams() {
+                if (window.location.protocol !== "http:" && window.location.protocol !== "https:") return;
+                try {
+                    var u = new URL(window.location.href);
+                    u.searchParams.set("device", state.device);
+                    u.searchParams.set("page", state.scenario);
+                    window.history.replaceState(null, "", u.toString());
+                } catch (e) {}
+            }
+
+            function updateToolbarControls() {
+                pageSelect.value = state.scenario;
+                var isLoginNormal = state.scenario === "login";
+                var isAnyLogin = state.scenario.indexOf("login") === 0;
+                popupBtn.classList.toggle("is-hidden", !isAnyLogin);
+                popupBtn.classList.toggle("active", isLoginNormal && state.showWelcomeModal);
+                syncUrlParams();
+            }
+
+            function renderCurrentScenario() {
+                var sc = SCENARIOS[state.scenario] || SCENARIOS["login"];
+                updateToolbarControls();
+                loadRawTemplate(sc.file).then(function (raw) {
+                    var vars = buildMockVars(state.scenario);
+                    var parsed = renderMikrotikTemplate(raw, vars);
+                    iframeEl.srcdoc = prepareSrcDoc(parsed, state.scenario);
+                });
+            }
+
+            /* =====================================================================
+             * 6. Event Listeners & Interactive Hotspot Flow
+             * ===================================================================== */
+            deviceBtns.forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    var nextDevice = btn.getAttribute("data-device");
+                    if (state.device !== nextDevice) {
+                        state.device = nextDevice;
+                        state.landscape = false;
+                    }
+                    updateDeviceLayout();
+                });
+            });
+
+            rotateBtn.addEventListener("click", function () {
+                state.landscape = !state.landscape;
+                updateDeviceLayout();
+            });
+
+            pageSelect.addEventListener("change", function () {
+                state.scenario = pageSelect.value;
+                state.customError = "";
+                if (state.scenario === "login") {
+                    // Keep current welcome modal preference
+                }
+                renderCurrentScenario();
+            });
+
+            popupBtn.addEventListener("click", function () {
+                if (state.scenario !== "login") {
+                    state.scenario = "login";
+                    state.showWelcomeModal = true;
+                    renderCurrentScenario();
+                    return;
+                }
+                state.showWelcomeModal = !state.showWelcomeModal;
+                popupBtn.classList.toggle("active", state.showWelcomeModal);
+                if (iframeEl.contentWindow) {
+                    iframeEl.contentWindow.postMessage({
+                        type: "SET_WELCOME_MODAL",
+                        open: state.showWelcomeModal
+                    }, "*");
+                }
+            });
+
+            document.getElementById("hide-bar-btn").addEventListener("click", function () {
+                document.body.classList.add("bar-hidden");
+                updateDeviceLayout();
+                showToast("Mode layar penuh aktif");
+            });
+
+            document.getElementById("restore-bar-btn").addEventListener("click", function () {
+                document.body.classList.remove("bar-hidden");
+                updateDeviceLayout();
+            });
+
+            var redirectTimer = null;
+
+            window.addEventListener("message", function (ev) {
+                var data = ev.data;
+                if (!data || typeof data.type !== "string") return;
+
+                if (data.type === "HOTSPOT_MODAL_STATE") {
+                    state.showWelcomeModal = Boolean(data.open);
+                    popupBtn.classList.toggle("active", state.showWelcomeModal && state.scenario === "login");
+                } else if (data.type === "HOTSPOT_THEME") {
+                    state.theme = data.theme === "light" ? "light" : "dark";
+                    try { localStorage.setItem("zitline-theme", state.theme); } catch (e) {}
+                } else if (data.type === "HOTSPOT_LOGIN_FAIL") {
+                    clearTimeout(redirectTimer);
+                    state.customError = data.error || "invalid username or password";
+                    state.scenario = "login-error";
+                    renderCurrentScenario();
+                    showToast("Simulasi error: kode akses belum diisi");
+                } else if (data.type === "HOTSPOT_LOGIN_OK") {
+                    clearTimeout(redirectTimer);
+                    state.username = data.username || "ZITLINE-VIP";
+                    state.loginBy = data.loginBy || "http-pap";
+                    state.scenario = "alogin";
+                    renderCurrentScenario();
+                    showToast("Login berhasil (" + state.username + ") → Membuka Status...");
+                    redirectTimer = setTimeout(function () {
+                        if (state.scenario === "alogin") {
+                            state.scenario = "status";
+                            renderCurrentScenario();
+                        }
+                    }, 1200);
+                } else if (data.type === "HOTSPOT_NAV") {
+                    clearTimeout(redirectTimer);
+                    if (SCENARIOS[data.target]) {
+                        if (data.target === "login") {
+                            state.showWelcomeModal = false;
+                        }
+                        state.scenario = data.target;
+                        renderCurrentScenario();
+                    }
+                } else if (data.type === "HOTSPOT_TOAST" && data.text) {
+                    showToast(data.text);
+                }
+            });
+
+            window.addEventListener("resize", updateDeviceLayout);
+
+            // Initialize
+            updateDeviceLayout();
+            renderCurrentScenario();
+        })();
+    </script>
+</body>
+
+</html>
+

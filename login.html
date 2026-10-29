@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zitline - Login Internet</title>
+    <script>
+        if (localStorage.getItem('zitline-theme') === 'light') {
+            document.documentElement.classList.add('light-mode');
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" class="hidden-form">
+        <input type="hidden" name="username">
+        <input type="hidden" name="password">
+        <input type="hidden" name="dst" value="$(link-orig)">
+        <input type="hidden" name="popup" value="true">
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        function doLogin() {
+            var passcode = document.login.passcode.value;
+            document.sendin.username.value = passcode;
+            document.sendin.password.value = hexMD5('$(chap-id)' + passcode + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+    </script>
+    $(endif)
+
+    <div class="welcome-modal" id="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+        <div class="welcome-card">
+            <div class="welcome-visual">
+                <img src="img/popup.jpg" alt="Promo 10 tahun Zitline">
+            </div>
+            <h1 id="welcome-title">Selamat Datang</h1>
+            <p>Silahkan login untuk melanjutkan</p>
+            <button type="button" class="primary-button" id="welcome-login">Login <span aria-hidden="true">→</span></button>
+        </div>
+    </div>
+
+    <main class="site-shell">
+        <header class="brand-card">
+            <img class="logo-dark" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider">
+            <img class="logo-light" src="img/logo-zitline-color.svg" alt="Zitline Internet Service Provider">
+            <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Aktifkan light mode">
+                <span class="theme-icon" aria-hidden="true">☼</span>
+                <span class="theme-label">Light</span>
+            </button>
+        </header>
+
+        <section class="top-grid">
+            <div class="panel login-panel" id="login-panel">
+                <h2>Login Internet</h2>
+                <p class="subheading">Masukkan kode akses kamu</p>
+                <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)">
+                    <input type="hidden" name="popup" value="true">
+                    <input type="hidden" name="username" value="$(username)">
+                    <input type="hidden" name="password" value="">
+                    <label for="passcode">Passcode</label>
+                    <div class="input-wrap">
+                        <img class="ico" src="img/user.svg" alt="">
+                        <input id="passcode" name="passcode" type="text" value="$(username)" placeholder="Masukkan kode voucher atau password" autocomplete="off" oninput="this.form.username.value = this.value; this.form.password.value = this.value">
+                    </div>
+                    <p class="info $(if error)alert$(endif)">
+                        $(if error == "")$(if trial == 'yes')Free trial tersedia, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">klik di sini</a>.$(endif)$(endif)
+                        $(if error)$(error)$(endif)
+                    </p>
+                    <input class="primary-button" type="submit" value="Login">
+                </form>
+            </div>
+
+            <div class="panel banner-panel">
+                <div class="banner-viewport">
+                    <div class="banner-track" id="banner-track">
+                        <div class="empty-shape banner-slide active"><img src="img/slide-1.jpg" alt="Promo 10 tahun Zitline"></div>
+                        <div class="empty-shape banner-slide"><img src="img/slide-2.jpg" alt="Zitline Internet Service Provider"></div>
+                        <div class="empty-shape banner-slide"><img src="img/slide-3.jpg" alt="Zitline On Time Equals Early"></div>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <div class="slider-dots" id="slider-dots">
+                        <button type="button" class="active" aria-label="Tampilkan banner 1"></button>
+                        <button type="button" aria-label="Tampilkan banner 2"></button>
+                        <button type="button" aria-label="Tampilkan banner 3"></button>
+                    </div>
+                    <div class="slider-arrows">
+                        <button type="button" id="slider-prev" aria-label="Banner sebelumnya">←</button>
+                        <button type="button" id="slider-next" aria-label="Banner berikutnya">→</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-grid">
+            <article class="panel about-panel">
+                <h2>About Us</h2>
+                <div class="about-shapes" id="about-shapes">
+                    <div class="empty-shape about-shape active"><img src="img/about-1.jpg" alt="Tentang Zitline"></div>
+                    <div class="empty-shape about-shape"><img src="img/about-2.jpg" alt="Layanan Zitline"></div>
+                </div>
+                <div class="about-dots" id="about-dots" aria-label="Pilihan foto About Us">
+                    <button type="button" class="active" aria-label="Tampilkan foto About Us 1"></button>
+                    <button type="button" aria-label="Tampilkan foto About Us 2"></button>
+                </div>
+                <p>PT ARAZ INTI LINE (ZITLINE) adalah penyedia solusi konektivitas dan layanan internet yang mendukung kebutuhan bisnis, institusi, dan pelanggan di Indonesia.</p>
+                <p>Dengan dukungan jaringan wireless dan fiber optic, Zitline menghadirkan koneksi yang stabil, aman, dan dapat diandalkan untuk menunjang produktivitas.</p>
+                <a class="primary-button button-link secondary-button" href="#" aria-label="Kunjungi Website Utama">Kunjungi Website Utama</a>
+            </article>
+
+            <article class="panel facilities-panel">
+                <h2>Fasilitas Perusahaan</h2>
+                <p>Fasilitas dan layanan kami dirancang untuk memberikan pengalaman konektivitas yang nyaman, profesional, dan konsisten bagi setiap pelanggan.</p>
+                <div class="facility-grid">
+                    <div class="facility-card"><h3>Ruang Meeting</h3><p>Ruang nyaman untuk kolaborasi dan kebutuhan bisnis.</p><strong>2</strong></div>
+                    <div class="facility-card"><h3>Network Support</h3><p>Dukungan teknis untuk menjaga layanan tetap optimal.</p><strong>24/7</strong></div>
+                    <div class="facility-card"><h3>High Speed Wi-Fi</h3><p>Koneksi cepat dan stabil untuk aktivitas digital.</p><strong>1 Gbps</strong></div>
+                    <div class="facility-card"><h3>Dedicated Service</h3><p>Layanan konektivitas yang disesuaikan dengan kebutuhan.</p><strong>99.9%</strong></div>
+                    <div class="facility-card"><h3>Secure Infrastructure</h3><p>Infrastruktur terlindungi untuk menjaga keamanan data.</p><strong>ISO Ready</strong></div>
+                </div>
+            </article>
+        </section>
+
+        <section class="panel contact-panel">
+            <h2>Contact Us</h2>
+            <p>Butuh solusi konektivitas untuk kantor, hunian, atau kebutuhan bisnis? Tim kami siap membantu memilih layanan yang tepat.</p>
+            <a class="primary-button button-link secondary-button" href="#">Consultation Now</a>
+        </section>
+
+        <footer class="footer-card">© 2026 PT ARAZ INTI LINE</footer>
+    </main>
+
+    <script>
+        (function () {
+            var storedTheme = localStorage.getItem('zitline-theme');
+            if (storedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        }());
+
+        var themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', function () {
+            var isLight = document.body.classList.toggle('light-mode');
+            document.documentElement.classList.toggle('light-mode', isLight);
+            localStorage.setItem('zitline-theme', isLight ? 'light' : 'dark');
+            themeToggle.setAttribute('aria-label', isLight ? 'Aktifkan dark mode' : 'Aktifkan light mode');
+            themeToggle.querySelector('.theme-label').textContent = isLight ? 'Dark' : 'Light';
+            themeToggle.querySelector('.theme-icon').textContent = isLight ? '◐' : '☼';
+        });
+
+        if (document.body.classList.contains('light-mode')) {
+            themeToggle.setAttribute('aria-label', 'Aktifkan dark mode');
+            themeToggle.querySelector('.theme-label').textContent = 'Dark';
+            themeToggle.querySelector('.theme-icon').textContent = '◐';
+        }
+
+        document.addEventListener('pointermove', function (event) {
+            document.documentElement.style.setProperty('--mouse-x', event.clientX + 'px');
+            document.documentElement.style.setProperty('--mouse-y', event.clientY + 'px');
+        });
+
+        (function () {
+            var modal = document.getElementById('welcome-modal');
+            var loginButton = document.getElementById('welcome-login');
+            var passcode = document.getElementById('passcode');
+            modal.classList.remove('is-hidden');
+            loginButton.addEventListener('click', function () {
+                modal.classList.add('is-hidden');
+                modal.setAttribute('aria-hidden', 'true');
+                passcode.focus();
+            });
+        }());
+
+        (function () {
+            var track = document.getElementById('banner-track');
+            var dots = document.querySelectorAll('#slider-dots button');
+            var previous = document.getElementById('slider-prev');
+            var next = document.getElementById('slider-next');
+            var currentSlide = 0;
+            var slideCount = dots.length;
+
+            function showSlide(index) {
+                currentSlide = (index + slideCount) % slideCount;
+                track.querySelectorAll('.banner-slide').forEach(function (slide, slideIndex) {
+                    slide.classList.toggle('active', slideIndex === currentSlide);
+                });
+                dots.forEach(function (dot, dotIndex) {
+                    dot.classList.toggle('active', dotIndex === currentSlide);
+                });
+            }
+
+            dots.forEach(function (dot, dotIndex) {
+                dot.addEventListener('click', function () {
+                    showSlide(dotIndex);
+                    restartTimer();
+                });
+            });
+
+            previous.addEventListener('click', function () {
+                showSlide(currentSlide - 1);
+                restartTimer();
+            });
+
+            next.addEventListener('click', function () {
+                showSlide(currentSlide + 1);
+                restartTimer();
+            });
+
+            var timer = setInterval(function () {
+                showSlide(currentSlide + 1);
+            }, 4000);
+
+            function restartTimer() {
+                clearInterval(timer);
+                timer = setInterval(function () {
+                    showSlide(currentSlide + 1);
+                }, 4000);
+            }
+        }());
+
+        (function () {
+            var track = document.getElementById('about-shapes');
+            var dots = document.querySelectorAll('#about-dots button');
+            var currentSlide = 0;
+            var timer;
+
+            function showAboutSlide(index) {
+                currentSlide = (index + dots.length) % dots.length;
+                track.querySelectorAll('.about-shape').forEach(function (slide, slideIndex) {
+                    slide.classList.toggle('active', slideIndex === currentSlide);
+                });
+                dots.forEach(function (dot, dotIndex) {
+                    dot.classList.toggle('active', dotIndex === currentSlide);
+                });
+            }
+
+            dots.forEach(function (dot, dotIndex) {
+                dot.addEventListener('click', function () {
+                    if (window.matchMedia('(max-width: 650px)').matches) {
+                        showAboutSlide(dotIndex);
+                        restartTimer();
+                    }
+                });
+            });
+
+            function restartTimer() {
+                clearInterval(timer);
+                timer = setInterval(function () {
+                    if (window.matchMedia('(max-width: 650px)').matches) {
+                        showAboutSlide(currentSlide + 1);
+                    }
+                }, 4000);
+            }
+
+            restartTimer();
+            window.addEventListener('resize', function () {
+                if (!window.matchMedia('(max-width: 650px)').matches) {
+                    track.querySelectorAll('.about-shape').forEach(function (slide) {
+                        slide.classList.remove('active');
+                    });
+                }
+            });
+        }());
+    </script>
+</body>
+
+</html>
