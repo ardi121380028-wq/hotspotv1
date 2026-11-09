@@ -34,7 +34,7 @@ body.light-mode ::-webkit-scrollbar-thumb {
     --line: rgba(219, 224, 255, .18);
     --text: #f8f8ff;
     --muted: #b4b1ca;
-    --blue: #2825ff;
+    --blue: #16a7f7;
     --mouse-x: 50vw;
     --mouse-y: 50vh;
 }
@@ -211,10 +211,11 @@ button, input { font: inherit; }
     border: 0;
     border-radius: 9px;
     color: #fff;
-    background: linear-gradient(110deg, #2724ff 0%, #3734ff 52%, #4c72ff 100%);
-    box-shadow: 0 5px 16px rgba(43, 39, 255, .3);
+    background: linear-gradient(110deg, #0e8fdc 0%, #16a7f7 50%, #46c0ff 100%);
+    box-shadow: 0 5px 16px rgba(22, 167, 247, .38);
     cursor: pointer;
     font-size: 11px;
+    font-weight: 600;
     transition: filter .2s ease, transform .2s ease;
 }
 
@@ -343,8 +344,8 @@ body.light-mode .logo-light { display: block; }
 body.light-mode .page-theme-toggle { color: #3f4866; background: rgba(78, 89, 146, .08); border-color: rgba(70, 78, 112, .2); }
 body.light-mode .wrap table tr { border-color: rgba(70, 78, 112, .14); }
 body.light-mode .wrap table td:last-child { color: #1d2235; }
-body.light-mode .wrap table a { color: #4f5edb; }
-body.light-mode .wrap input[type="submit"] { box-shadow: 0 5px 16px rgba(43, 39, 255, .2); }
+body.light-mode .wrap table a { color: #0b82c7; }
+body.light-mode .wrap input[type="submit"] { box-shadow: 0 5px 16px rgba(22, 167, 247, .28); }
 body.light-mode h1, body.light-mode h2, body.light-mode h3,
 body.light-mode table td:first-child { color: #1d2235; }
 body.light-mode p,
@@ -354,10 +355,10 @@ body.light-mode .facility-card { background: rgba(255, 255, 255, .3); border-col
 body.light-mode .empty-shape { color: rgba(65, 75, 125, .42); background: rgba(255, 255, 255, .28); border-color: rgba(70, 78, 112, .2); }
 body.light-mode input[type="text"], body.light-mode input[type="password"] { color: #1d2235; background: rgba(255, 255, 255, .48); border-color: rgba(70, 78, 112, .2); }
 body.light-mode input[type="text"]::placeholder, body.light-mode input[type="password"]::placeholder { color: #7a8299; }
-body.light-mode .facility-card strong { color: #29345f; border-color: rgba(60, 60, 255, .3); }
+body.light-mode .facility-card strong { color: #29345f; border-color: rgba(22, 167, 247, .35); }
 body.light-mode .slider-arrows button { color: #3f4866; background: rgba(78, 89, 146, .06); border-color: rgba(70, 78, 112, .2); }
 body.light-mode .slider-dots button { background: #c2c8dc; }
-body.light-mode .slider-dots button.active { background: #5b61ed; }
+body.light-mode .slider-dots button.active { background: #16a7f7; box-shadow: 0 0 8px rgba(22, 167, 247, .5); }
 body.light-mode .footer-card { color: #687087; }
 html.light-mode .welcome-modal,
 body.light-mode .welcome-modal {
@@ -480,7 +481,7 @@ body.light-mode .toggle-password:hover {
     background: rgba(70, 78, 112, .1);
 }
 
-input:focus { border-color: rgba(126, 132, 255, .7); box-shadow: 0 0 0 3px rgba(57, 55, 255, .14), inset 0 1px 0 rgba(255, 255, 255, .07); }
+input:focus { border-color: rgba(22, 167, 247, .75); box-shadow: 0 0 0 3px rgba(22, 167, 247, .2), inset 0 1px 0 rgba(255, 255, 255, .07); }
 
 .primary-button {
     display: flex;
@@ -491,10 +492,11 @@ input:focus { border-color: rgba(126, 132, 255, .7); box-shadow: 0 0 0 3px rgba(
     border: 0;
     border-radius: 10px;
     color: #fff;
-    background: linear-gradient(110deg, #2724ff 0%, #3734ff 52%, #4c72ff 100%);
-    box-shadow: 0 5px 16px rgba(43, 39, 255, .42);
+    background: linear-gradient(110deg, #0e8fdc 0%, #16a7f7 50%, #46c0ff 100%);
+    box-shadow: 0 5px 16px rgba(22, 167, 247, .38);
     cursor: pointer;
     font-size: 11px;
+    font-weight: 600;
     text-decoration: none;
 }
 
@@ -502,16 +504,18 @@ input:focus { border-color: rgba(126, 132, 255, .7); box-shadow: 0 0 0 3px rgba(
 
 .login-panel input[type="submit"],
 .welcome-card .primary-button {
-    background: linear-gradient(110deg, #2724ff 0%, #3734ff 52%, #4c72ff 100%);
+    background: linear-gradient(110deg, #0e8fdc 0%, #16a7f7 50%, #46c0ff 100%);
+    box-shadow: 0 5px 16px rgba(22, 167, 247, .38);
 }
 
 .secondary-button {
-    background: linear-gradient(110deg, #2724ff 0%, #3734ff 52%, #4c72ff 100%);
+    background: linear-gradient(110deg, #0e8fdc 0%, #16a7f7 50%, #46c0ff 100%);
+    box-shadow: 0 5px 16px rgba(22, 167, 247, .38);
 }
 
 .info { margin: 4px 0 8px; }
 .info.alert { color: #ff838d; }
-.info a { color: #9ca8ff; }
+.info a { color: #5bc5ff; }
 
 .empty-shape {
     display: grid;
@@ -572,7 +576,7 @@ input:focus { border-color: rgba(126, 132, 255, .7); box-shadow: 0 0 0 3px rgba(
 
 .bento-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 12px;
 }
 
@@ -580,6 +584,8 @@ input:focus { border-color: rgba(126, 132, 255, .7); box-shadow: 0 0 0 3px rgba(
     position: relative;
     padding: 0;
     overflow: hidden;
+    min-width: 0;
+    width: 100%;
     border-radius: 14px;
     border: 1px solid rgba(205, 211, 255, .14);
     background: rgba(10, 8, 38, .35);
@@ -589,11 +595,13 @@ input:focus { border-color: rgba(126, 132, 255, .7); box-shadow: 0 0 0 3px rgba(
 
 .bento-card-photo:hover {
     transform: translateY(-2px);
-    border-color: rgba(126, 132, 255, .45);
+    border-color: rgba(22, 167, 247, .55);
     box-shadow: 0 14px 32px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .1);
 }
 
 .bento-card-photo img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -650,8 +658,8 @@ body.light-mode .bento-card-photo {
 
 html.light-mode .bento-card-photo:hover,
 body.light-mode .bento-card-photo:hover {
-    border-color: rgba(60, 60, 255, .4);
-    box-shadow: 0 14px 30px rgba(56, 66, 105, .15);
+    border-color: rgba(22, 167, 247, .5);
+    box-shadow: 0 14px 30px rgba(22, 167, 247, .18);
 }
 
 html.light-mode .bento-photo-overlay,
@@ -735,9 +743,9 @@ body.light-mode .bento-photo-badge {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .06em;
-    color: #b8beff;
-    background: rgba(43, 39, 255, .2);
-    border: 1px solid rgba(126, 132, 255, .35);
+    color: #6ed5ff;
+    background: rgba(22, 167, 247, .18);
+    border: 1px solid rgba(22, 167, 247, .35);
     margin-bottom: 8px;
 }
 
@@ -825,9 +833,9 @@ body.light-mode .welcome-card h1 {
 }
 
 body.light-mode .welcome-badge {
-    color: #2724ff;
-    background: rgba(39, 36, 255, .1);
-    border-color: rgba(39, 36, 255, .25);
+    color: #0b82c7;
+    background: rgba(22, 167, 247, .12);
+    border-color: rgba(22, 167, 247, .3);
 }
 
 body.light-mode .welcome-logos {
@@ -840,13 +848,14 @@ body.light-mode .welcome-logos {
 
 @media (max-width: 860px) {
     .bento-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
     }
-    .bento-p1 { grid-column: span 6; min-height: 210px; }
-    .bento-p2 { grid-column: span 3; min-height: 175px; }
-    .bento-p3 { grid-column: span 3; min-height: 175px; }
-    .bento-p4 { grid-column: span 3; min-height: 175px; }
-    .bento-p5 { grid-column: span 3; min-height: 175px; }
+    .bento-p1 { grid-column: span 6; aspect-ratio: 16 / 9; min-height: 0; }
+    .bento-p2 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-p3 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-p4 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-p5 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
 }
 
 @media (max-width: 650px) {
@@ -885,21 +894,23 @@ body.light-mode .welcome-logos {
     }
     .bento-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
     }
-    .bento-p1 { grid-column: span 2; min-height: 175px; aspect-ratio: 16 / 9; }
-    .bento-p2 { grid-column: span 2; min-height: 160px; aspect-ratio: 16 / 9; }
-    .bento-p3 { grid-column: span 1; min-height: 135px; aspect-ratio: 4 / 3; }
-    .bento-p4 { grid-column: span 1; min-height: 135px; aspect-ratio: 4 / 3; }
-    .bento-p5 { grid-column: span 2; min-height: 155px; aspect-ratio: 16 / 9; }
+    .bento-p1 { grid-column: span 2; aspect-ratio: 16 / 9; min-height: 0; }
+    .bento-p2 { grid-column: span 2; aspect-ratio: 16 / 9; min-height: 0; }
+    .bento-p3 { grid-column: span 1; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-p4 { grid-column: span 1; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-p5 { grid-column: span 2; aspect-ratio: 16 / 9; min-height: 0; }
     
     .bento-photo-overlay {
-        padding: 8px 10px;
+        padding: 6px 8px;
     }
     .bento-photo-badge {
-        font-size: 9.5px;
-        padding: 3px 8px;
+        font-size: 9px;
+        padding: 3px 6px;
+        max-width: calc(100% - 4px);
+    }
         max-width: calc(100% - 4px);
     }
 
