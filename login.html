@@ -49,8 +49,8 @@
 
     <main class="site-shell">
         <header class="brand-card">
-            <img class="logo-dark" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider">
-            <img class="logo-light" src="img/logo-zitline-color.svg" alt="Zitline Internet Service Provider">
+            <img class="logo-dark" src="img/logo-pmpp-dark.png" alt="Zitline PMPP Internet Service Provider">
+            <img class="logo-light" src="img/logo-pmpp-light.png" alt="Zitline PMPP Internet Service Provider">
             <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Aktifkan light mode">
                 <span class="theme-icon" aria-hidden="true">☼</span>
                 <span class="theme-label">Light</span>
@@ -66,10 +66,20 @@
                     <input type="hidden" name="popup" value="true">
                     <input type="hidden" name="username" value="$(username)">
                     <input type="hidden" name="password" value="">
-                    <label for="passcode">Passcode</label>
+                    <label for="passcode">Kode Akses</label>
                     <div class="input-wrap">
-                        <img class="ico" src="img/user.svg" alt="">
-                        <input id="passcode" name="passcode" type="text" value="$(username)" placeholder="Masukkan kode voucher atau password" autocomplete="off" oninput="this.form.username.value = this.value; this.form.password.value = this.value">
+                        <img class="ico" src="img/password.svg" alt="">
+                        <input id="passcode" name="passcode" type="password" value="$(username)" placeholder="Masukkan kode akses" autocomplete="off" oninput="this.form.username.value = this.value; this.form.password.value = this.value">
+                        <button type="button" class="toggle-password" id="toggle-password" aria-label="Tampilkan kode akses" title="Tampilkan kode akses">
+                            <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
                     </div>
                     <p class="info $(if error)alert$(endif)">
                         $(if error == "")$(if trial == 'yes')Free trial tersedia, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">klik di sini</a>.$(endif)$(endif)
@@ -178,6 +188,24 @@
                 modal.setAttribute('aria-hidden', 'true');
                 passcode.focus();
             });
+        }());
+
+        (function () {
+            var toggleBtn = document.getElementById('toggle-password');
+            var passcode = document.getElementById('passcode');
+            if (toggleBtn && passcode) {
+                var eyeShow = toggleBtn.querySelector('.eye-show');
+                var eyeHide = toggleBtn.querySelector('.eye-hide');
+                toggleBtn.addEventListener('click', function () {
+                    var isPassword = passcode.getAttribute('type') === 'password';
+                    passcode.setAttribute('type', isPassword ? 'text' : 'password');
+                    eyeShow.style.display = isPassword ? 'none' : 'block';
+                    eyeHide.style.display = isPassword ? 'block' : 'none';
+                    toggleBtn.setAttribute('aria-label', isPassword ? 'Sembunyikan kode akses' : 'Tampilkan kode akses');
+                    toggleBtn.setAttribute('title', isPassword ? 'Sembunyikan kode akses' : 'Tampilkan kode akses');
+                    passcode.focus();
+                });
+            }
         }());
 
         (function () {

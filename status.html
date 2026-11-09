@@ -38,7 +38,7 @@ $(endif)
                     <span class="page-theme-icon" aria-hidden="true">☼</span>
                     <span class="page-theme-label">Light</span>
                 </button>
-                <picture><source srcset="img/logo-zitline-color.svg" media="(prefers-color-scheme: light)"><img class="page-brand" src="img/logo-zitline.svg" alt="Zitline Internet Service Provider"></picture>
+                <picture><source srcset="img/logo-pmpp-light.png" media="(prefers-color-scheme: light)"><img class="page-brand" src="img/logo-pmpp-dark.png" alt="Zitline PMPP Internet Service Provider"></picture>
                 $(if login-by == 'trial')
                     <h1>Hi, trial user!</h1>
                 $(elif login-by != 'mac')
@@ -86,7 +86,7 @@ $(endif)
             themeToggle.setAttribute('aria-label', isLight ? 'Aktifkan dark mode' : 'Aktifkan light mode');
             themeIcon.textContent = isLight ? '◐' : '☼';
             themeLabel.textContent = isLight ? 'Dark' : 'Light';
-            brand.src = isLight ? 'img/logo-zitline-color.svg' : 'img/logo-zitline.svg';
+            brand.src = isLight ? 'img/logo-pmpp-light.png' : 'img/logo-pmpp-dark.png';
         }
 
         updateTheme(localStorage.getItem('zitline-theme') === 'light');
