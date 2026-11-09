@@ -123,8 +123,8 @@ button, input { font: inherit; }
 .page-brand {
     display: block;
     width: auto;
-    max-width: 210px;
-    max-height: 56px;
+    max-width: 300px;
+    max-height: 72px;
     margin: 0 auto 20px;
     object-fit: contain;
 }
@@ -230,17 +230,17 @@ button, input { font: inherit; }
 
 .brand-card {
     position: relative;
-    min-height: 82px;
+    min-height: 96px;
     display: grid;
     place-items: center;
-    padding: 15px 20px;
+    padding: 16px 24px;
     margin-bottom: 14px;
 }
 
 .brand-card img {
     width: auto;
-    max-width: 220px;
-    max-height: 52px;
+    max-width: 330px;
+    max-height: 72px;
     object-fit: contain;
 }
 .logo-light { display: none; }
@@ -778,14 +778,131 @@ body.light-mode .bento-photo-badge {
 }
 
 .welcome-modal.is-hidden { display: none; }
-.welcome-card { position: relative; overflow: hidden; width: min(326px, calc(100% - 32px)); padding: 22px 18px 20px; border: 1px solid rgba(225, 228, 255, .23); border-radius: 20px; background: radial-gradient(circle at 15% 0%, rgba(255, 255, 255, .12), transparent 34%), linear-gradient(145deg, rgba(42, 40, 65, .58), rgba(12, 12, 25, .66)); text-align: center; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .13), 0 24px 90px rgba(0, 0, 0, .5); -webkit-backdrop-filter: blur(30px) saturate(115%); backdrop-filter: blur(30px) saturate(115%); }
-.welcome-card::before { position: absolute; top: 0; right: 10%; left: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .3), transparent); content: ""; }
-.welcome-visual { width: min(210px, 100%); height: 260px; margin: 0 auto 20px; overflow: hidden; border: 1px solid rgba(221, 225, 255, .2); border-radius: 16px; background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .01)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 12px 30px rgba(0, 0, 0, .14); }
-.welcome-visual img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.welcome-card h1 { margin-bottom: 6px; font-size: 24px; letter-spacing: -.055em; }
-.welcome-card p { font-size: 13px; }
-.welcome-card .primary-button { height: 46px; margin-top: 20px; gap: 12px; font-size: 14px; }
-.welcome-card .primary-button span { display: inline-flex; align-items: center; height: 1em; margin: 0; font-size: 24px; line-height: 1; transform: translateY(-1px); }
+.welcome-card {
+    position: relative;
+    overflow: hidden;
+    width: min(370px, calc(100% - 32px));
+    padding: 24px 22px 22px;
+    border: 1px solid rgba(225, 228, 255, .23);
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(255, 255, 255, .14), transparent 36%),
+        linear-gradient(145deg, rgba(42, 40, 65, .62), rgba(12, 12, 25, .72));
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 28px 90px rgba(0, 0, 0, .55);
+    -webkit-backdrop-filter: blur(30px) saturate(120%);
+    backdrop-filter: blur(30px) saturate(120%);
+}
+
+.welcome-card::before {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    left: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .35), transparent);
+    content: "";
+}
+
+.welcome-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #b8beff;
+    background: rgba(43, 39, 255, .2);
+    border: 1px solid rgba(126, 132, 255, .35);
+    margin-bottom: 8px;
+}
+
+.welcome-card h1 {
+    margin: 4px 0 6px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    color: #fff;
+}
+
+.welcome-card .welcome-sub {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0 0 14px;
+}
+
+.welcome-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 16px;
+    margin: 0 auto 16px;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(55, 52, 255, .14), transparent 70%),
+        rgba(8, 7, 28, .5);
+    border: 1px solid rgba(205, 211, 255, .16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 8px 24px rgba(0, 0, 0, .2);
+}
+
+.welcome-logos img {
+    width: 100%;
+    max-width: 270px;
+    height: auto;
+    max-height: 85px;
+    object-fit: contain;
+    display: block;
+}
+
+.welcome-logo-light { display: none; }
+body.light-mode .welcome-logo-dark { display: none; }
+body.light-mode .welcome-logo-light { display: block; }
+
+.welcome-card .primary-button {
+    height: 44px;
+    margin-top: 14px;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.welcome-card .primary-button span {
+    display: inline-flex;
+    align-items: center;
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Light mode for welcome popup */
+body.light-mode .welcome-card {
+    border-color: rgba(82, 92, 132, .2);
+    background:
+        radial-gradient(circle at 15% 0%, rgba(255, 255, 255, .95), transparent 34%),
+        linear-gradient(145deg, rgba(255, 255, 255, .86), rgba(233, 237, 248, .82));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), 0 24px 70px rgba(48, 57, 93, .2);
+}
+
+body.light-mode .welcome-card h1 {
+    color: #1d2235;
+}
+
+body.light-mode .welcome-badge {
+    color: #2724ff;
+    background: rgba(39, 36, 255, .1);
+    border-color: rgba(39, 36, 255, .25);
+}
+
+body.light-mode .welcome-logos {
+    background:
+        radial-gradient(circle at 50% 50%, rgba(55, 52, 255, .08), transparent 70%),
+        rgba(255, 255, 255, .6);
+    border-color: rgba(70, 78, 112, .18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 8px 24px rgba(56, 66, 105, .08);
+}
 
 @media (max-width: 860px) {
     .bento-grid {
@@ -813,8 +930,8 @@ body.light-mode .bento-photo-badge {
     .panel { margin-bottom: 14px; }
     .banner-panel { padding: 10px; }
     .banner-track { height: 106px; }
-    .brand-card { min-height: 78px; padding: 14px 18px; }
-    .brand-card img { max-width: 190px; max-height: 46px; }
+    .brand-card { min-height: 86px; padding: 14px 18px; }
+    .brand-card img { max-width: 250px; max-height: 58px; }
     
     /* Bento Mobile Adaptation */
     .bento-section { padding: 16px 14px 14px; }
