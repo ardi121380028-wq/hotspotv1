@@ -641,12 +641,11 @@ input:focus { border-color: rgba(22, 167, 247, .75); box-shadow: 0 0 0 3px rgba(
     backdrop-filter: blur(8px);
 }
 
-/* Bento Photo Spans */
-.bento-p1 { grid-column: span 7; min-height: 230px; }
-.bento-p2 { grid-column: span 5; min-height: 230px; }
-.bento-p3 { grid-column: span 4; min-height: 180px; }
-.bento-p4 { grid-column: span 4; min-height: 180px; }
-.bento-p5 { grid-column: span 4; min-height: 180px; }
+/* Bento Photo Spans (3 Images Layout) */
+.bento-c1, .bento-p1 { grid-column: span 6; aspect-ratio: 16 / 10; min-height: 220px; }
+.bento-c2, .bento-p2 { grid-column: span 6; aspect-ratio: 16 / 10; min-height: 220px; }
+.bento-c3, .bento-p3 { grid-column: span 12; aspect-ratio: 8 / 3; min-height: 180px; }
+.bento-p4, .bento-p5 { display: none; }
 
 /* Light mode for Bento Gallery */
 html.light-mode .bento-card-photo,
@@ -848,14 +847,12 @@ body.light-mode .welcome-logos {
 
 @media (max-width: 860px) {
     .bento-grid {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
     }
-    .bento-p1 { grid-column: span 6; aspect-ratio: 16 / 9; min-height: 0; }
-    .bento-p2 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
-    .bento-p3 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
-    .bento-p4 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
-    .bento-p5 { grid-column: span 3; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-c1, .bento-p1 { grid-column: span 1; aspect-ratio: 16 / 10; min-height: 0; }
+    .bento-c2, .bento-p2 { grid-column: span 1; aspect-ratio: 16 / 10; min-height: 0; }
+    .bento-c3, .bento-p3 { grid-column: span 2; aspect-ratio: 8 / 3; min-height: 0; }
 }
 
 @media (max-width: 650px) {
@@ -897,11 +894,9 @@ body.light-mode .welcome-logos {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
     }
-    .bento-p1 { grid-column: span 2; aspect-ratio: 16 / 9; min-height: 0; }
-    .bento-p2 { grid-column: span 2; aspect-ratio: 16 / 9; min-height: 0; }
-    .bento-p3 { grid-column: span 1; aspect-ratio: 4 / 3; min-height: 0; }
-    .bento-p4 { grid-column: span 1; aspect-ratio: 4 / 3; min-height: 0; }
-    .bento-p5 { grid-column: span 2; aspect-ratio: 16 / 9; min-height: 0; }
+    .bento-c1, .bento-p1 { grid-column: span 1; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-c2, .bento-p2 { grid-column: span 1; aspect-ratio: 4 / 3; min-height: 0; }
+    .bento-c3, .bento-p3 { grid-column: span 2; aspect-ratio: 16 / 7; min-height: 0; }
     
     .bento-photo-overlay {
         padding: 6px 8px;
