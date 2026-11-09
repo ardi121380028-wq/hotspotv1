@@ -90,6 +90,7 @@ button, input { font: inherit; }
     z-index: 1;
     width: min(980px, calc(100% - 44px));
     margin: 28px auto 0;
+    padding-bottom: 56px;
 }
 
 .main {
@@ -676,21 +677,68 @@ body.light-mode .bento-photo-badge {
 
 .contact-panel { display: none; margin-top: 14px; }
 .footer-card {
-    display: grid;
-    min-height: 62px;
-    place-items: center;
-    margin: 14px 0 18px;
-    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    margin: 18px 0 28px;
+    padding: 14px 24px;
     border: 1px solid var(--line);
     border-radius: 16px;
-    color: #aaa8bd;
+    color: #b2b0c6;
     background:
         radial-gradient(circle at 14% 0%, rgba(255, 255, 255, .1), transparent 32%),
         linear-gradient(145deg, rgba(31, 29, 57, .48), var(--panel));
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 18px 45px rgba(0, 0, 0, .2);
     -webkit-backdrop-filter: blur(26px) saturate(115%);
     backdrop-filter: blur(26px) saturate(115%);
-    font-size: 10px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 10px;
+    text-align: center;
+}
+
+.footer-copy {
+    font-weight: 600;
+    color: #e6e8ff;
+    letter-spacing: -.01em;
+}
+
+.footer-divider {
+    color: rgba(22, 167, 247, .7);
+    font-size: 12px;
+}
+
+.footer-contrib {
+    color: #b2b0c6;
+    font-weight: 500;
+}
+
+body.light-mode .footer-card {
+    color: #555e78;
+    background:
+        radial-gradient(circle at 14% 0%, rgba(255, 255, 255, .85), transparent 32%),
+        linear-gradient(145deg, rgba(255, 255, 255, .72), rgba(239, 242, 251, .62));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 18px 45px rgba(56, 66, 105, .12);
+}
+
+body.light-mode .footer-copy {
+    color: #171b30;
+}
+
+body.light-mode .footer-contrib {
+    color: #555e78;
+}
+
+body.light-mode .footer-divider {
+    color: rgba(22, 167, 247, .8);
 }
 
 .welcome-modal {
@@ -906,8 +954,6 @@ body.light-mode .welcome-logos {
         padding: 3px 6px;
         max-width: calc(100% - 4px);
     }
-        max-width: calc(100% - 4px);
-    }
 
     /* Welcome Modal on mobile */
     .welcome-card {
@@ -927,7 +973,27 @@ body.light-mode .welcome-logos {
     }
 
     .contact-panel { display: block; }
-    .footer-card { margin-bottom: 0; }
+    .footer-card {
+        padding: 14px 16px;
+        margin: 16px 0 32px;
+        font-size: 10.5px;
+    }
+    .footer-content {
+        gap: 4px 8px;
+    }
+    .footer-divider {
+        display: none;
+    }
+    .footer-contrib {
+        display: block;
+        width: 100%;
+        font-size: 10px;
+        line-height: 1.45;
+        color: #9d9bb3;
+    }
+    body.light-mode .footer-contrib {
+        color: #646d88;
+    }
     .main { padding: 16px; }
     .wrap { padding: 24px 20px 20px; }
     .page-theme-toggle { top: 14px; right: 14px; }
