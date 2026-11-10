@@ -757,8 +757,8 @@ body.light-mode .footer-divider {
 .welcome-card {
     position: relative;
     overflow: hidden;
-    width: min(370px, calc(100% - 32px));
-    padding: 24px 22px 22px;
+    width: min(390px, calc(100% - 32px));
+    padding: 26px 22px 22px;
     border: 1px solid rgba(225, 228, 255, .23);
     border-radius: 22px;
     background:
@@ -784,16 +784,17 @@ body.light-mode .footer-divider {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
+    padding: 7px 22px;
     border-radius: 999px;
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 13.5px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .06em;
+    letter-spacing: .08em;
     color: #6ed5ff;
     background: rgba(22, 167, 247, .18);
-    border: 1px solid rgba(22, 167, 247, .35);
-    margin-bottom: 8px;
+    border: 1px solid rgba(22, 167, 247, .38);
+    box-shadow: 0 4px 16px rgba(22, 167, 247, .25);
+    margin-bottom: 12px;
 }
 
 .welcome-card h1 {
@@ -881,8 +882,9 @@ body.light-mode .welcome-card h1 {
 
 body.light-mode .welcome-badge {
     color: #0b82c7;
-    background: rgba(22, 167, 247, .12);
-    border-color: rgba(22, 167, 247, .3);
+    background: rgba(22, 167, 247, .14);
+    border-color: rgba(22, 167, 247, .35);
+    box-shadow: 0 4px 16px rgba(22, 167, 247, .12);
 }
 
 body.light-mode .welcome-logos {
@@ -957,11 +959,13 @@ body.light-mode .welcome-logos {
 
     /* Welcome Modal on mobile */
     .welcome-card {
-        width: min(340px, calc(100% - 24px));
+        width: min(350px, calc(100% - 24px));
         padding: 22px 16px 18px;
     }
-    .welcome-card h1 {
-        font-size: 22px;
+    .welcome-badge {
+        font-size: 12px;
+        padding: 6px 18px;
+        margin-bottom: 10px;
     }
     .welcome-logos {
         padding: 14px 10px;
