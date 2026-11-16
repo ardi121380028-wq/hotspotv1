@@ -675,7 +675,6 @@ body.light-mode .bento-photo-badge {
     box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
 }
 
-.contact-panel { display: none; margin-top: 14px; }
 .footer-card {
     display: flex;
     align-items: center;
@@ -976,7 +975,6 @@ body.light-mode .welcome-logos {
         max-height: 70px;
     }
 
-    .contact-panel { display: block; }
     .footer-card {
         padding: 14px 16px;
         margin: 16px 0 32px;
